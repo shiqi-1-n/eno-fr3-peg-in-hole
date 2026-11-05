@@ -1,0 +1,37 @@
+{
+  "status": "EXPERT_FAILURE",
+  "seed": 202611020,
+  "schema": "v19_rgbd_expert_full_v1",
+  "expert_privileged_labels_only": true,
+  "sensor": "rendered RGBD",
+  "expert_status": "FAIL",
+  "vision_status": "NOT_EVALUATED_FULLY",
+  "insertion_requirement_mm": 15.0,
+  "stability_hold_steps": 12,
+  "rotation_deg_max_config": 1.0,
+  "error": "RuntimeError: 先水平对中约束失效：棒离孔>20mm却已下降至孔口附近",
+  "traceback": "Traceback (most recent call last):\n  File \"/eno/generated/v19_generated.py\", line 2425, in v19_main\n    raise RuntimeError('先水平对中约束失效：棒离孔>20mm却已下降至孔口附近')\nRuntimeError: 先水平对中约束失效：棒离孔>20mm却已下降至孔口附近\n",
+  "vision_samples": 0,
+  "vision_checked": 3,
+  "vision_errors": [
+    {
+      "step": 1,
+      "phase": "LIFT",
+      "error": "几何拟合误差xy=16.79mm,z=1.20mm,axis=2.18deg"
+    },
+    {
+      "step": 5,
+      "phase": "LIFT",
+      "error": "棒轴线圆柱拟合朝向不合理"
+    },
+    {
+      "step": 10,
+      "phase": "LIFT",
+      "error": "两相机均无可用的棒表面连通区域:{'wide': {'invalid': '当前视角没有目标颜色连通区域'}, 'detail': {'invalid': '目标颜色最大连续区域不足 100 像素，实际=76'}}"
+    }
+  ],
+  "expert_phase_at_failure": "LIFT",
+  "max_force_N": 0.0,
+  "max_depth_mm": -47.614202041711685,
+  "min_radial_mm": 72.05685902960525
+}

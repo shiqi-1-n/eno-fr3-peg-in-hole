@@ -1,0 +1,82 @@
+[
+  {
+    "path": "output/v17_4_bc_models/coarse_bc1/bc_actor_best.pt",
+    "bytes": 291617,
+    "sha256": "80e8e96abbd53b6fd9445df502697c75241d565fa372afdd216089516787df06"
+  },
+  {
+    "path": "output/v17_4_bc_models/coarse_bc200_1/bc_actor_best.pt",
+    "bytes": 291617,
+    "sha256": "57e150d643326415f4980e2f5e4e1c1a3d60a49872ef2f4bd7b094882182b3f8"
+  },
+  {
+    "path": "output/v17_5_full_bc_models/bc_v1710_1/bc_actor_best.pt",
+    "bytes": 291681,
+    "sha256": "1ba7bf4e8385cab833d11b2dda7186fba7d595a7ba959d6770fe67a3ae48949d"
+  },
+  {
+    "path": "output/v17_5_full_bc_models/full_bc1/bc_actor_best.pt",
+    "bytes": 291681,
+    "sha256": "d1b1a090d5a3a616bb38871d2444cdd843333e8ca58cd6924751bd73d7c57941"
+  },
+  {
+    "path": "output/v17_7_rl_models/v177b_smoke1/round_000.pt",
+    "bytes": 178715,
+    "sha256": "99faffbfb8486d0dfb9be43abe5e972aa75ecd1f71547c8de559d8b58175eb56"
+  },
+  {
+    "path": "output/v17_7_rl_models/v177b_smoke1/round_001.pt",
+    "bytes": 535017,
+    "sha256": "05bd671ef06b30d3285cef4c41232804e29db18045cf84b5cd4032235ff0d336"
+  },
+  {
+    "path": "output/v17_7c_rl_models/v177c_smoke1/round_000.pt",
+    "bytes": 178651,
+    "sha256": "f8fd200f658dfbeb30e8f29360178611a48697c401eeef86bd5237f3f2eb66aa"
+  },
+  {
+    "path": "output/v17_7c_rl_models/v177c_smoke1/round_001.pt",
+    "bytes": 535017,
+    "sha256": "b1f202c677d39117088f244b98ed72925f3db3e6a8af0f50cf755204df75c549"
+  },
+  {
+    "path": "output/v17_8_models/v178_smoke1/round_000.pt",
+    "bytes": 178651,
+    "sha256": "afc7081fe6a3f86eee6c842c9d4867a38fe3f131866a7ee92926a517ce48cc38"
+  },
+  {
+    "path": "output/v17_8_models/v178_smoke1/round_001.pt",
+    "bytes": 535017,
+    "sha256": "33ef58fb72783b184905325469e760f865c299456f05317fe7fb6235abe2668d"
+  },
+  {
+    "path": "output/v17_8_models/v178_training1/round_000.pt",
+    "bytes": 178651,
+    "sha256": "afc7081fe6a3f86eee6c842c9d4867a38fe3f131866a7ee92926a517ce48cc38"
+  },
+  {
+    "path": "output/v17_9_models/coarse200_probe_init/round_000.pt",
+    "bytes": 178651,
+    "sha256": "a6c2e2cd21f4a4e933f2a13fa4e7be604bb4be0066f1979d1118a0a047284e24"
+  },
+  {
+    "path": "output/v17_17_models/v1717_first8/round_000.pt",
+    "bytes": 178651,
+    "sha256": "f1f3134d1d8ec177093ccfcb757e1272eb61aea42e007d02bfceb5a4966fd191"
+  },
+  {
+    "path": "output/v26_visual_ppo_models/v26_first2/round_000.pt",
+    "bytes": 178651,
+    "sha256": "e01f0651b7c250036a6da1d2ee9e17f801c8911e61aa7c1bc631098cca2efe4d"
+  },
+  {
+    "path": "output/v26_1_visual_ppo_models/v261_first2/round_000.pt",
+    "bytes": 178715,
+    "sha256": "dd838a665bf192b1b092d778b768d49029d5bd2e8bca56130efd1fba46bdedef"
+  },
+  {
+    "path": "output/v26_1_visual_ppo_models/v261_first2/round_001.pt",
+    "bytes": 535017,
+    "sha256": "ebd00c4ef0b437a746f4f8f870980a3e5c5a66ed649eb03d618e57c4ee8cb5e5"
+  }
+]

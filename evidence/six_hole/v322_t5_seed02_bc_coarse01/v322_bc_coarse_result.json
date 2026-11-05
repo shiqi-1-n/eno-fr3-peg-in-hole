@@ -1,0 +1,146 @@
+{
+  "schema": "v322_bc_coarse_live_01",
+  "seed": 2026110402,
+  "target_id": 5,
+  "status": "BC_COARSE_NOT_PASSED",
+  "bc_action_executed": true,
+  "bc_policy_updates_in_this_run": 0,
+  "servo_fallback_applied": false,
+  "insertion_attempted": false,
+  "six_hole_insertion_tested": false,
+  "actual_mount_truth_used_for_control": false,
+  "target_world_truth_used_for_control": false,
+  "source": "PhysX ray first-hit depth, not RGB-D images",
+  "safety": "XY-only at fixed nominal Z, no contact-seeking descent",
+  "sensor": {
+    "target_id": 5,
+    "known_pattern_pitch_mm": 30.0,
+    "ray_type": "physx_first_hit_distance_only_NOT_RGBD",
+    "top_surface_pixels": 720,
+    "measured_board_center_xy_m": [
+      0.491,
+      -0.0010000000000000009
+    ],
+    "board_bbox_wh_mm": [
+      88.0,
+      58.0
+    ],
+    "holes": [
+      {
+        "id": 0,
+        "valid": true,
+        "reason": "ok",
+        "center_xy_m": [
+          0.4616127098321339,
+          0.01483093525179857
+        ],
+        "bottom_pixels": 417,
+        "spread_xy_mm": [
+          22.0,
+          22.0
+        ],
+        "prior_to_measured_center_mm": 1.032
+      },
+      {
+        "id": 1,
+        "valid": true,
+        "reason": "ok",
+        "center_xy_m": [
+          0.49161270983213395,
+          0.01483093525179857
+        ],
+        "bottom_pixels": 417,
+        "spread_xy_mm": [
+          22.0,
+          22.0
+        ],
+        "prior_to_measured_center_mm": 1.032
+      },
+      {
+        "id": 2,
+        "valid": true,
+        "reason": "ok",
+        "center_xy_m": [
+          0.521612709832134,
+          0.01483093525179857
+        ],
+        "bottom_pixels": 417,
+        "spread_xy_mm": [
+          22.0,
+          22.0
+        ],
+        "prior_to_measured_center_mm": 1.032
+      },
+      {
+        "id": 3,
+        "valid": true,
+        "reason": "ok",
+        "center_xy_m": [
+          0.4616127098321339,
+          -0.01516906474820145
+        ],
+        "bottom_pixels": 417,
+        "spread_xy_mm": [
+          22.0,
+          22.0
+        ],
+        "prior_to_measured_center_mm": 1.032
+      },
+      {
+        "id": 4,
+        "valid": true,
+        "reason": "ok",
+        "center_xy_m": [
+          0.49161270983213395,
+          -0.01516906474820145
+        ],
+        "bottom_pixels": 417,
+        "spread_xy_mm": [
+          22.0,
+          22.0
+        ],
+        "prior_to_measured_center_mm": 1.032
+      },
+      {
+        "id": 5,
+        "valid": true,
+        "reason": "ok",
+        "center_xy_m": [
+          0.521612709832134,
+          -0.01516906474820145
+        ],
+        "bottom_pixels": 417,
+        "spread_xy_mm": [
+          22.0,
+          22.0
+        ],
+        "prior_to_measured_center_mm": 1.032
+      }
+    ],
+    "selected_measured_xyz_m": [
+      0.521612709832134,
+      -0.01516906474820145,
+      0.4
+    ],
+    "used_scene_truth_to_detect": false
+  },
+  "initial_nominal_radial_mm": 94.59612186716912,
+  "initial_nominal_clearance_mm": 272.1803188846715,
+  "bc_checkpoint_sha256": "57e150d643326415f4980e2f5e4e1c1a3d60a49872ef2f4bd7b094882182b3f8",
+  "stop_reason": "SAFETY_Z_DRIFT",
+  "steps_executed": 1,
+  "actuator_reference_changed_steps": 1,
+  "bc_forward_count": 1,
+  "first_bc_action_after_z_mask": [
+    -0.9999969005584717,
+    0.941109299659729,
+    0.0
+  ],
+  "last_nominal_radial_mm": 93.79580393065159,
+  "best_nominal_radial_mm": 94.59612186716912,
+  "total_commanded_xy_path_mm": 0.48062028992905664,
+  "bc_only_no_servo_fallback": true,
+  "coarse_gate_10mm_sustained": false,
+  "trace": [],
+  "offline_ray_to_truth_mm": 0.030487985863185248
+}

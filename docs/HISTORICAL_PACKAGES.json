@@ -1,0 +1,767 @@
+[
+  {
+    "filename": "FR3_HF10_controller_saturation_probe.zip",
+    "bytes": 12965,
+    "sha256": "7d1a423f0c7e97603eeb49d98b1f7174a5f2573f4a58c82124b3967086cde88b"
+  },
+  {
+    "filename": "FR3_HF11_wall_contact_pair.zip",
+    "bytes": 14665,
+    "sha256": "cd523dd725bac2be1b55337bb9abac935763e888dc4b484f90bca46d80a3e25f"
+  },
+  {
+    "filename": "FR3_HF12_oracle_align_then_insert.zip",
+    "bytes": 17315,
+    "sha256": "11455524e8c370f6c78491ace32c904a2c80c87645c0296e90ee1dd92a6c075e"
+  },
+  {
+    "filename": "FR3_HF13_oracle_hold_contact_calibration.zip",
+    "bytes": 18283,
+    "sha256": "42847e744d9eff08ca01c0e7b401b96ae5fa63b6683669d568617417a0ae7c81"
+  },
+  {
+    "filename": "FR3_HF14_eval_horizon_40s60s.zip",
+    "bytes": 8643,
+    "sha256": "c07b6b95d3f41b6058088e9c1cbb3be9a40b12686a1ed951d60e190edec9459e"
+  },
+  {
+    "filename": "FR3_HF8_permission_recovery.zip",
+    "bytes": 8008,
+    "sha256": "bb881cb4003f7426963b21b138ed3c81bc811a7117f7f4ea18dd95fc699ac48c"
+  },
+  {
+    "filename": "FR3_HF9_PPO_stall_contact_audit.zip",
+    "bytes": 11918,
+    "sha256": "3e0379cd75924bd4dac82a6b5f1978924d84e9504a5b2f347b5a00809363891d"
+  },
+  {
+    "filename": "FR3_phase02_contact_video.zip",
+    "bytes": 18633,
+    "sha256": "46df578bbe7cc32a4de52e03b4c480dd9317f425b5793e81e5bb5c22d49aea76"
+  },
+  {
+    "filename": "FR3_phase03A.zip",
+    "bytes": 16317,
+    "sha256": "3212ccd0699f3a56379e8e1f251337fe64f51cc58583b09b3b7cf5bb9c86082c"
+  },
+  {
+    "filename": "FR3_phase03B_preinsert.zip",
+    "bytes": 28342,
+    "sha256": "755963f12977487a3febe872d6a82ea7dc0ca2e4805edcd96368b5ffe5ebbfa1"
+  },
+  {
+    "filename": "FR3_phase03B_v2_fix.zip",
+    "bytes": 10656,
+    "sha256": "7d432f94bcec0a1af40a64b72ee2f1a3cbdcfc04e6f8e7db9ef7d903606bfa94"
+  },
+  {
+    "filename": "FR3_phase04_collision_counterexample_v1.zip",
+    "bytes": 11647,
+    "sha256": "0289498840798ea8b30483d334c08af4d594aa767d0b479e39d53fd75394f6e1"
+  },
+  {
+    "filename": "FR3_phase04_collision_counterexample_v11.zip",
+    "bytes": 11258,
+    "sha256": "fc4c23448b8a74f929e908ed71d34cf39b69f163f89542ca31e68374d4f906b1"
+  },
+  {
+    "filename": "FR3_phase04_contact_insertion.zip",
+    "bytes": 13588,
+    "sha256": "c338ca09b557980144768f7df102f66197387aa673389cf8b934eade6d28415e"
+  },
+  {
+    "filename": "FR3_phase04_diagnostic_v3.zip",
+    "bytes": 12980,
+    "sha256": "dfa5610428270a2dfdb78299fba198eabaed1d759a39bb097b0c0069b96edf68"
+  },
+  {
+    "filename": "FR3_phase04_flange_only_v4.zip",
+    "bytes": 15871,
+    "sha256": "db6e63905cbc63db1ccba838da091541a191b8acf2405a997bebb3e01dd6d374"
+  },
+  {
+    "filename": "FR3_phase04_v41_serialization_fix.zip",
+    "bytes": 16074,
+    "sha256": "7252ce80b56f5c8abc3baef091d29e9faee9e8e18392f49b18585e59b6c5a00b"
+  },
+  {
+    "filename": "FR3_phase05A_randomized_smoke_v1.zip",
+    "bytes": 13993,
+    "sha256": "19ccb7ff21865729415f63ad780eef94ce966960cb2bc730874f90eaf0685dc2"
+  },
+  {
+    "filename": "FR3_phase05B0_lab_foundation_v1.zip",
+    "bytes": 14934,
+    "sha256": "29ce52aaf970d93cf0e6dbc7b33eca482e6f2abe8c25d2318c2c095d385835cb"
+  },
+  {
+    "filename": "FR3_phase05B1A_lab_fr3_joint_smoke_v1.zip",
+    "bytes": 11262,
+    "sha256": "86d177c9486b11e00cc7682b6d97e82a69a8fcb3146a482c2be4ce849a2da8cb"
+  },
+  {
+    "filename": "FR3_phase05B1B_hold_diagnostic_v1.zip",
+    "bytes": 9393,
+    "sha256": "c8c4802af0cbd88dafe8e4ff18ee26e1ec14c15be30b15a943514cd47f9dde9a"
+  },
+  {
+    "filename": "FR3_phase05B1C_gravity_gain_diagnostic_v1.zip",
+    "bytes": 12918,
+    "sha256": "f3cbf7f01496a674c117010047eae9aecb0bc7f3c3c5dad9b66993cd359d7ded"
+  },
+  {
+    "filename": "FR3_phase05B1D_proprio_servo_v1.zip",
+    "bytes": 11784,
+    "sha256": "ba8e53d055121bbf886ce1683a9b5a5a3ee03d0ec6e15e84ef611b620dd85c39"
+  },
+  {
+    "filename": "FR3_phase05B1E_dynamic_flange_v1.zip",
+    "bytes": 12566,
+    "sha256": "ccd931886d13ba442e17b1ef9d3e8de3b86916d23f88352c0eff87a48e1cc06f"
+  },
+  {
+    "filename": "FR3_phase05B2A_lab_scene_v1.zip",
+    "bytes": 18200,
+    "sha256": "ad1a5e6dd913bffbcaca49e3deac254b234a21c3fbbfb8785b07c50aa7fd2bb5"
+  },
+  {
+    "filename": "FR3_phase05B2B_approach_preinsert_v14.zip",
+    "bytes": 43238,
+    "sha256": "b9165f755eeada77facf5588f985057406dcf513a2bcc459fef071b970a0c573"
+  },
+  {
+    "filename": "FR3_phase05B2B_collision_ablation_v15b.zip",
+    "bytes": 50273,
+    "sha256": "68ece42a117595d11a9bac0714bab88489c14af93e2e8a9366c4819e3a0af3c8"
+  },
+  {
+    "filename": "FR3_phase05B2B_contact_contrast_v1.zip",
+    "bytes": 24867,
+    "sha256": "d535851f8c2dcf688221b0c3573b3e7e32f5afc80bd77ddee16305da9ecf5f12"
+  },
+  {
+    "filename": "FR3_phase05B2B_contact_waypoints_v15.zip",
+    "bytes": 49939,
+    "sha256": "1f81c55be3d674b137e423fe2334f849d70ac707b2480d43229d9f8023738579"
+  },
+  {
+    "filename": "FR3_phase05B2B_fixed_joint_step_v10.zip",
+    "bytes": 26320,
+    "sha256": "93611f55b8d71cb8d16f4ad4989fbc1b845e3d7daff847d614b0d8ec56c25916"
+  },
+  {
+    "filename": "FR3_phase05B2B_fk_audit_v12.zip",
+    "bytes": 93034,
+    "sha256": "80038d9772611f3044cef170eb1c103020c38e88f1709f6e78cbe136e7ed563f"
+  },
+  {
+    "filename": "FR3_phase05B2B_fk_audit_v12_hostfix.zip",
+    "bytes": 94059,
+    "sha256": "d7aca2cc0440280c23e4cfdd157223a2dccf44941e8da7c2de0ee6c9f3f0234a"
+  },
+  {
+    "filename": "FR3_phase05B2B_independent_waypoints_v13.zip",
+    "bytes": 38631,
+    "sha256": "7f34a485169c942f7f0ffbad751a058fc7290e405fa3e4fbed5780e9ccdba24c"
+  },
+  {
+    "filename": "FR3_phase05B2B_independent_waypoints_v13b.zip",
+    "bytes": 37900,
+    "sha256": "655618dd487de0b630c66868a8eab4eef21b455ac105758d8b7e5588fc249e15"
+  },
+  {
+    "filename": "FR3_phase05B2B_jacobian_pulse_v3.zip",
+    "bytes": 21253,
+    "sha256": "2dcbc358dc6698af2f78b240fd87a9f5533db99f4b86c16caf851e50701cf84e"
+  },
+  {
+    "filename": "FR3_phase05B2B_legacy_ik_restore_v5.zip",
+    "bytes": 19930,
+    "sha256": "59e164ec6245c94c9b4cbf30aedfa9e5d8de5d8a709bc89c180851d9788d4aa3"
+  },
+  {
+    "filename": "FR3_phase05B2B_longstroke_pi_v9.zip",
+    "bytes": 29806,
+    "sha256": "314e267cfd3f2473f327c4eb403d7c252be0a41dabffa3e54328bac63f180645"
+  },
+  {
+    "filename": "FR3_phase05B2B_position_priority_v7.zip",
+    "bytes": 24574,
+    "sha256": "baed11b1f9ceaa40adf00fc564511c82f1562972154d7746475fbe2aa911cd5d"
+  },
+  {
+    "filename": "FR3_phase05B2B_preinsert_dls_ablation_v4.zip",
+    "bytes": 19327,
+    "sha256": "d9879583c46d437b2bc5932fa017d5277637ecbb387bb7f0847d3030ae519c9d"
+  },
+  {
+    "filename": "FR3_phase05B2B_preinsert_recovery_v2.zip",
+    "bytes": 19172,
+    "sha256": "3801127f22fbb326b7c75bbfd5fbf0d44c37da29ddf17edf0400d46f6f06420d"
+  },
+  {
+    "filename": "FR3_phase05B2B_reference_replay_v11.zip",
+    "bytes": 90768,
+    "sha256": "f8257be1e0584a8be36a61e711d5bb1a7e54ad9d5307585687253fad0060f2a8"
+  },
+  {
+    "filename": "FR3_phase05B2B_reference_replay_v11_hostfix.zip",
+    "bytes": 92079,
+    "sha256": "c5f7bfc665cba361a07073e2924eb9b1612873fea78b24389f6eec4dec7fa94a"
+  },
+  {
+    "filename": "FR3_phase05B2B_servo_causality_v8.zip",
+    "bytes": 30009,
+    "sha256": "391b3651e878804791d9f613660908fbb9c0b98d441c4a8cd1e559dc5c984049"
+  },
+  {
+    "filename": "FR3_phase05B2B_staged_preinsert_v6.zip",
+    "bytes": 22617,
+    "sha256": "a1025675dac88610aef39ecbf9cc4848ccb31b68a8ca11770fb8ef4a7b6a07bf"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_10_official20s_eval.zip",
+    "bytes": 50701,
+    "sha256": "c75a01a4c855346f29e50058a5232bfc12470fcfa4d1d5ad1117d5ffb57ed540"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_10_official20s_eval_hotfix1.zip",
+    "bytes": 52293,
+    "sha256": "5ce35f2cbae61dd10563bdd34c774364ce7c801074f749a1cc738c8eaf20bf6e"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_11_audit_first.zip",
+    "bytes": 18844,
+    "sha256": "33038e50a399c70f9e7578632e5d658f0ecf93d21ee597c0565e7b2dc4facf53"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_12_evidence_first.zip",
+    "bytes": 27839,
+    "sha256": "5049b020f55cd2059e55a2e572eaa3418fc89d23f2f176f042f327c807d4ac78"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_13_online_evidence.zip",
+    "bytes": 60413,
+    "sha256": "cc23139075467533b1cad5bf642ba683d08d1d5323c8d55f96b332b6eb1d7a5e"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_2_resume_eval.zip",
+    "bytes": 38843,
+    "sha256": "147fae9ab5f9b07ebd55c64abbdc1a6375678ffb4131a002bb40eba193cd95d7"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_3_reset_audit.zip",
+    "bytes": 34389,
+    "sha256": "902990f4ea000ba6ecd9142357850e2ddbd910efc1081b02b12442032abf44a0"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_4_bias_ablation.zip",
+    "bytes": 37262,
+    "sha256": "c60beef98e8e7ab69680c0646a17c2930731f8d0b5b27ed169a7231252d25b7e"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_5_gravity_ablation.zip",
+    "bytes": 38735,
+    "sha256": "d481b51355e894a86d596415c7732ad3d456727cc2b14f0b3ace04c01995727b"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_6_gain_ablation.zip",
+    "bytes": 41952,
+    "sha256": "d1df725093bacb3c02909bec8f0220dffb160608948764aefd1009a718870ce7"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_7_gravity_feedforward.zip",
+    "bytes": 44005,
+    "sha256": "8ba5c1422cdcc3f1fca5e97b8fdadd227a336936d0185f62bdfe3b8d9d343550"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_8_stable_ppo_pilot.zip",
+    "bytes": 41338,
+    "sha256": "2be5903dbfb923658df8d1a904a0b741f76bbaedf79c8c289265571e8d649a5d"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_9_timeout_paired_eval.zip",
+    "bytes": 49573,
+    "sha256": "6250b12b22b3cff7274bce8d5cffd804d9dd5ec8247398e32af6d7ebbfb499d0"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_depth_fix.zip",
+    "bytes": 33659,
+    "sha256": "cff190282b0335a524690d3e43ee6d6903def3d1a53cc4d1570e5ada647f4ed1"
+  },
+  {
+    "filename": "FR3_phase05B2B_v16_first_ppo.zip",
+    "bytes": 34418,
+    "sha256": "3c8e50b1a2b60a6a90dda571e59e1b2eae95a647a852f87cbfa8a3ee6b7dbb98"
+  },
+  {
+    "filename": "FR3_student_batch10_GUI.zip",
+    "bytes": 16524,
+    "sha256": "1fb7c5cd485cac70bfc33b2fd08eb1675079184c1b7e86a7937715dc0ac5444c"
+  },
+  {
+    "filename": "FR3_v16_13_HF8_PPO_trace_video.zip",
+    "bytes": 17966,
+    "sha256": "af3986e514d844d8e79a1abd89500807ccfe58f0714859ec3b7b953ef819994c"
+  },
+  {
+    "filename": "FR3_v16_13_camera_hotfix1.zip",
+    "bytes": 9555,
+    "sha256": "47fa77fd2b03670dbc4690bcd12069d7330d1efab1a6b91eb2b5fe22e9227ab9"
+  },
+  {
+    "filename": "FR3_v16_13_camera_hotfix2.zip",
+    "bytes": 11597,
+    "sha256": "997f05d22c3628bd0d7493271b57621741fe950c6af30ce4e7878fb4e3fd7958"
+  },
+  {
+    "filename": "FR3_v16_13_capture_hotfix4.zip",
+    "bytes": 57776,
+    "sha256": "98188e6f6b45c6270ef81515d7d8866ddfed50182c73227ba057eef772a10b35"
+  },
+  {
+    "filename": "FR3_v16_13_hotfix5_isolated_replay.zip",
+    "bytes": 68039,
+    "sha256": "f2bbe10b3dce90d531ff214bcd9bc566c7bc0e6ff637250333995ee523cb0734"
+  },
+  {
+    "filename": "FR3_v16_13_hotfix6_visual_review.zip",
+    "bytes": 9839,
+    "sha256": "928855c54f556f9515c02ae29dae7e89125aef6e9e7b2c5c1849b72c69339267"
+  },
+  {
+    "filename": "FR3_v16_13_hotfix7_camera_verify.zip",
+    "bytes": 9799,
+    "sha256": "d110603d5d2eebe8e1685199f7ebeec435a61a1be1fd0ce683c5b17e5abd07b8"
+  },
+  {
+    "filename": "FR3_v16_13_renderer_isolation.zip",
+    "bytes": 6853,
+    "sha256": "8bbab3df6480215c385f5293aed33934fcd04b67fae2bdf4704b4368a0c5c40f"
+  },
+  {
+    "filename": "FR3_v16_13_renderer_isolation_v2.zip",
+    "bytes": 7590,
+    "sha256": "c7a01fe0dd6617884ad92b84f8903922d68f9ccaacde8be4be3f8cda89f6e193"
+  },
+  {
+    "filename": "FR3_v16_13_replicator_hotfix3.zip",
+    "bytes": 14389,
+    "sha256": "be9760294d705629beb5350cfb842370a572717e4924130cd550538f17bf9aec"
+  },
+  {
+    "filename": "FR3_v16_14_PPO_from_scratch_AB.zip",
+    "bytes": 17173,
+    "sha256": "663463c4e733e96c9e9de6ba2df1ba7bb60c47847488d83a4b046efc7eb8f0b4"
+  },
+  {
+    "filename": "FR3_v16_14_PPO_reward_ablation.zip",
+    "bytes": 15916,
+    "sha256": "a7720e3e332bea58e10d89190a904c6523f47494ebf5291855c903c2bbca820f"
+  },
+  {
+    "filename": "FR3_v17_10_BC_expand.zip",
+    "bytes": 5891,
+    "sha256": "1e37ee1b4b68bda4324ecbd34b7378dbffce41af41191421ceb77e3137b6001c"
+  },
+  {
+    "filename": "FR3_v17_11_expert_student_eval30.zip",
+    "bytes": 14517,
+    "sha256": "b2bee38458b0de9c0069ca50aef4f92ed964ae5fc3a2819e8650d20c37e50db6"
+  },
+  {
+    "filename": "FR3_v17_12_1_expert_video_fix.zip",
+    "bytes": 6112,
+    "sha256": "8dabcc43ec2b3e95f9ff0b6109c006991e442d9a23b671094114ffc2d97fbb52"
+  },
+  {
+    "filename": "FR3_v17_12_3_video_sample_live_fix.zip",
+    "bytes": 7474,
+    "sha256": "7b65b433ae568457c1f07a2cf54e269f4d3f5624f2596029beb8849ddddfcc3a"
+  },
+  {
+    "filename": "FR3_v17_12_expert_physx_video.zip",
+    "bytes": 8295,
+    "sha256": "1b22adbd6059dc5d6ed8550c7420854be940c7e4175cee09b066c6ca62c90119"
+  },
+  {
+    "filename": "FR3_v17_13_1_joint_diagnostic.zip",
+    "bytes": 19347,
+    "sha256": "af4d75cc3f1e5ccaab0c85ec66586093473478f780b19ec1a8751485dcab99bd"
+  },
+  {
+    "filename": "FR3_v17_13_contact_probe.zip",
+    "bytes": 37011,
+    "sha256": "d59289afda66973dc023ace39766f07edb491032ac4f6a2a4194f6f2d3da06eb"
+  },
+  {
+    "filename": "FR3_v17_13_isolated_expert_video.zip",
+    "bytes": 12864,
+    "sha256": "22f8184a5dc8abd6410d37e2d6d2f3c124ac6fdca16d487885161439e2a90361"
+  },
+  {
+    "filename": "FR3_v17_14_control_check.zip",
+    "bytes": 8211,
+    "sha256": "2a36745e4e32c1fe8b64e7c9565a1e54a1b7835d45ac05bc4b11ea73ddcb3810"
+  },
+  {
+    "filename": "FR3_v17_14_expert_peg_visibility.zip",
+    "bytes": 8553,
+    "sha256": "c86e3c573bae74eba77ea9eae3dad5d44508079f6c95cb85a2404bb9076c8da4"
+  },
+  {
+    "filename": "FR3_v17_15_1_contact_guard.zip",
+    "bytes": 26768,
+    "sha256": "fd006d24f9d7ae78d91c37b54a5121b91558fa614b303369d1cb8c72eddcaa63"
+  },
+  {
+    "filename": "FR3_v17_15_antiwindup_ppo.zip",
+    "bytes": 26498,
+    "sha256": "92628e2dce5eecdce8f7df2f31e29e8ddb5f7f850b64ad626c57023734357d19"
+  },
+  {
+    "filename": "FR3_v17_15_camera_fix.zip",
+    "bytes": 9589,
+    "sha256": "0ae4d1c1c577e58adc070954edf6fbc7c0444f390b603d7bad14ceb03c809f43"
+  },
+  {
+    "filename": "FR3_v17_16_align_first.zip",
+    "bytes": 27140,
+    "sha256": "3872803d7724a09de3dbe7925364abad42d0a4033f1d072700d40980faa4bd71"
+  },
+  {
+    "filename": "FR3_v17_16_postmortem.zip",
+    "bytes": 8306,
+    "sha256": "b462239b9203f069c092342d63080dd38213846d3e822f14f43b7ac42187adc8"
+  },
+  {
+    "filename": "FR3_v17_17_pegaware_ppo.zip",
+    "bytes": 33923,
+    "sha256": "df97659f849c14e3150de107189d728754c8a994b8b50d47761681927553613e"
+  },
+  {
+    "filename": "FR3_v17_1_random_teacher.zip",
+    "bytes": 22200,
+    "sha256": "1306af938c770a1d3422067495312e7763284b797324cbd7ae14bb5ee0d3fc3d"
+  },
+  {
+    "filename": "FR3_v17_2_1_cpu_ray_compat_probe.zip",
+    "bytes": 4214,
+    "sha256": "8e201e1c31214c02e152d23d026bf7782f0577ee7455608f016679ed93d5b0e6"
+  },
+  {
+    "filename": "FR3_v17_2_rayquery_hotfix.zip",
+    "bytes": 10729,
+    "sha256": "4cb51e0fcad8b6aa7fd73ccefe4141366b5e4d1fdd0636553d2d549bc88a3364"
+  },
+  {
+    "filename": "FR3_v17_2_sensor_BC_starter.zip",
+    "bytes": 22928,
+    "sha256": "06d2315d75d8f1045d349d97e15867b25f14f61e38add6d618e4f1d18d254b5b"
+  },
+  {
+    "filename": "FR3_v17_3_1_query_sync_quality_gate.zip",
+    "bytes": 12898,
+    "sha256": "ada8caf27a861ae47b1bf3f79461b3ddbc395fd53bfa78a4572004ee0f30a79a"
+  },
+  {
+    "filename": "FR3_v17_3_coarse_BC_pipeline.zip",
+    "bytes": 41260,
+    "sha256": "e02e53d24744e147572b3501eadfa3e43224d34535bc63dd9069e066dbfe213c"
+  },
+  {
+    "filename": "FR3_v17_4_BC_train_permission_fix.zip",
+    "bytes": 3007,
+    "sha256": "1e59ab864dbd8395ae82e1e330e45ca9a07ef47221719ca70d87dee046fbd75f"
+  },
+  {
+    "filename": "FR3_v17_4_spawn_real_collider_BC.zip",
+    "bytes": 18589,
+    "sha256": "56c96ceae8ed737ced5ecf1ae5c46d1b4516d259cedfe0537d641ad8ea2e902d"
+  },
+  {
+    "filename": "FR3_v17_5_full_XYZ_BC_baseline.zip",
+    "bytes": 17854,
+    "sha256": "74ffe9e4da30aede7c087fac76627859b5ef99552df85a4f360329107896cd25"
+  },
+  {
+    "filename": "FR3_v17_6_1_hold_probe.zip",
+    "bytes": 15078,
+    "sha256": "efbd438647b7aef37aa2389b9c40fd616774e4f8b434613009a0aa610a2ac297"
+  },
+  {
+    "filename": "FR3_v17_6_2_eval90_batch.zip",
+    "bytes": 8540,
+    "sha256": "50428e6db6b12291a661ae57d0ca70236b4df60ad24f186fbd4fd00948f035ec"
+  },
+  {
+    "filename": "FR3_v17_6_contact_feedback_trial.zip",
+    "bytes": 13271,
+    "sha256": "452c94d30f4dd783f9e314846d5641dce0faddcb5daaf24eb31b8b28e7ce2b77"
+  },
+  {
+    "filename": "FR3_v17_7B_residual_PPO_training.zip",
+    "bytes": 19808,
+    "sha256": "6d8f9b3533ace1dceb4b264d5a6db04ae8ee0d26bf8c591673aabfd510bb040a"
+  },
+  {
+    "filename": "FR3_v17_7C_near_mouth_residual_PPO.zip",
+    "bytes": 24824,
+    "sha256": "c82a361bf57875a90239b1cdbaa19e49751e53e4f1d5206439ba8cf5abdb5381"
+  },
+  {
+    "filename": "FR3_v17_7_coarse_swap_paired20.zip",
+    "bytes": 14798,
+    "sha256": "e61a7af5ace20d9d29ba000bb8f946f14484816867c0be83033059e82b5d5925"
+  },
+  {
+    "filename": "FR3_v17_8_1_retry_patch.zip",
+    "bytes": 11424,
+    "sha256": "9904b5faa07953efebfd43a3d62e45b00350778c1c3108b7932158d48b6727de"
+  },
+  {
+    "filename": "FR3_v17_8_training_first.zip",
+    "bytes": 31254,
+    "sha256": "78608a2f694f2653968029a6ffd5f75cc24ba93dde62442b8db95bb9b5965db8"
+  },
+  {
+    "filename": "FR3_v17_9_contact_learning.zip",
+    "bytes": 34168,
+    "sha256": "d4d8ce03d687c3d8c891ea29e71538bb88cd7266f9754dfa5eed7298851aef86"
+  },
+  {
+    "filename": "FR3_v17_scene_physics_probe.zip",
+    "bytes": 11293,
+    "sha256": "7e1dc7672607bba327cb3e741e1b16bea78d13aedb2c136b00e29efdd8170c61"
+  },
+  {
+    "filename": "FR3_v18_rgbd_bc.zip",
+    "bytes": 17803,
+    "sha256": "93e820fba9a753a8be384076bb20f99508e02db13bca7a8392f8dbbf2094a1c1"
+  },
+  {
+    "filename": "FR3_v19_2_expert_vision_separated.zip",
+    "bytes": 68839,
+    "sha256": "85ed7644e9b37fee08c7c8fdb14cc31eb4938fa95389267d29a66f26268e6d57"
+  },
+  {
+    "filename": "FR3_v19_3_fix_download.zip",
+    "bytes": 70828,
+    "sha256": "a47e58fd301cbb3be1d35913a53ba30f3c254aab788158d7764bc5fbff2e9c63"
+  },
+  {
+    "filename": "FR3_v19_full_rgbd_bc.zip",
+    "bytes": 62460,
+    "sha256": "cfec60171bcdf3466801301ce3bf80dff26f476c8eb642d3a1251638b6402388"
+  },
+  {
+    "filename": "FR3_v21_camera_audit.zip",
+    "bytes": 20167,
+    "sha256": "47f6ca17b83c3f1b25e84b388ee3ef5bdfd8fd2a1655f1b6541cd87f52182b45"
+  },
+  {
+    "filename": "FR3_v23_peg_camera_audit.zip",
+    "bytes": 28471,
+    "sha256": "a6555e2c7305da23e79435b72645312dc182c481fc320f7cd1fcde3cea5a2fc3"
+  },
+  {
+    "filename": "FR3_v24_visual_mount.zip",
+    "bytes": 34689,
+    "sha256": "1710ce9ec43c8a0d44ab45fe93b8e795003738ce34761d14fe45012fc973379d"
+  },
+  {
+    "filename": "FR3_v25_visual_joint_fit.zip",
+    "bytes": 71867,
+    "sha256": "42643e587bd3d77661fac986ec294ca224d63837f107c22ccd5b780a2b72a22e"
+  },
+  {
+    "filename": "FR3_v26_1_visual_mount_lock.zip",
+    "bytes": 58639,
+    "sha256": "c04ad138b63bf54b4112ec035c52448fa7be64ff310dec6767e7fdf13056f448"
+  },
+  {
+    "filename": "FR3_v26_2_zero_ppo_ablation.zip",
+    "bytes": 48540,
+    "sha256": "7d398b61e7d696eb443a23a23bbc12f17ab120dd8793acb210925bfac9feafb9"
+  },
+  {
+    "filename": "FR3_v26_visual_ppo.zip",
+    "bytes": 55563,
+    "sha256": "9440f5afaf41d77840faa63ffbeec2d358a119d150ff1b933320dd038ff1f110"
+  },
+  {
+    "filename": "FR3_v27_physx_contact_audit.zip",
+    "bytes": 13394,
+    "sha256": "b41ffdc32b0543cfe544d560381be88bf23b005393d39cc20c3fdd7df7b7fad0"
+  },
+  {
+    "filename": "FR3_v28_acceptance_audit.zip",
+    "bytes": 9628,
+    "sha256": "7ff5b20723e29f1532d3845300d2e452bcec346c1847d933e5f4fb9ffe16c451"
+  },
+  {
+    "filename": "FR3_v29_wall_off_counterfactual.zip",
+    "bytes": 13056,
+    "sha256": "35f1a01ef398ec1cdcc58301f6b8a99f7a8d539e2da602495d5fb4fa607eb760"
+  },
+  {
+    "filename": "FR3_v30_preacceptance_pilot.zip",
+    "bytes": 8976,
+    "sha256": "f5e0f86ed03d231e1dea692b3f0d57677e559d48aba3e7fdebbe7309aff54d1b"
+  },
+  {
+    "filename": "bc_ablation_v1.zip",
+    "bytes": 11620,
+    "sha256": "5a4c6b65471ddf7b36bd7b414030b90fbc267c0daf2f4f688e32a98306be0267"
+  },
+  {
+    "filename": "bc_ablation_v1_1_patch.zip",
+    "bytes": 9320,
+    "sha256": "d33b9c5a25ac86fae9b81751d88d10a73f37b71d436f05b0c0517636f5a9034c"
+  },
+  {
+    "filename": "eno_fr3_github_organizer.zip",
+    "bytes": 10765,
+    "sha256": "7eefaaacd5b24732a8c9ded208cbdd5dac9be66755bd7d6551338a6f3eff2ba7"
+  },
+  {
+    "filename": "fr3_expert_video_fix_v17131.zip",
+    "bytes": 8809,
+    "sha256": "7c464632fadf2911cd0335257d89b49b5262d91f1bed8ca266f622d08897d91b"
+  },
+  {
+    "filename": "fr3_phase02_fixed_v2.zip",
+    "bytes": 17575,
+    "sha256": "5acc4bb1afde7e01e98af83caed59c10810c62cf1ef9a802b2a24c6de315f19f"
+  },
+  {
+    "filename": "fr3_source_audit_20261104_204405.zip",
+    "bytes": 3180093,
+    "sha256": "cf5989dd8f601b5539ae0e8e8cd5cc470b556818ee374e83f1c9338a1dfb004a"
+  },
+  {
+    "filename": "v16_13_pulse_frames.zip",
+    "bytes": 1982,
+    "sha256": "e196b6b02e75ef765247df33d612111cfb9733e311100f3af06bb4ac2a4d4052"
+  },
+  {
+    "filename": "v30_20plus10_fixed_package.zip",
+    "bytes": 8325,
+    "sha256": "5aa8226d52471591bbeb3e2e6bb41b461ec2182268f88afe39a69a8005bc735a"
+  },
+  {
+    "filename": "v30_eval30_30seeds_package.zip",
+    "bytes": 8288,
+    "sha256": "193692377deefa91386867e43553e7c742026b2e472e4d1bd113f4e68da0c8c2"
+  },
+  {
+    "filename": "v315_frozen_eval30.zip",
+    "bytes": 15209,
+    "sha256": "28abda865eacc2435f669911299157c39ad2b78a13ee5e527dab715b176e32cd"
+  },
+  {
+    "filename": "v3161_frozen_eval30.zip",
+    "bytes": 16361,
+    "sha256": "bccc55aefff6bb2977ced074bf09b1770835479adc010262fc05c30345010f21"
+  },
+  {
+    "filename": "v3161_prelock_gate_fix.zip",
+    "bytes": 9426,
+    "sha256": "50e20bcfea53cbd11118645b28d6a5a70f10676117c17db78ff20a004c788491"
+  },
+  {
+    "filename": "v3162_prelock_height_fix_v2.zip",
+    "bytes": 7467,
+    "sha256": "d6476bdb2157f207e8d27002206bea0f7c61c3a55185308d97a763690158b418"
+  },
+  {
+    "filename": "v316_prelock_recovery.zip",
+    "bytes": 12512,
+    "sha256": "6fbae2384dd430c58711ccba59313d9f55897b4485b70a30724afd66225c0e40"
+  },
+  {
+    "filename": "v317_physx_contact_audit.zip",
+    "bytes": 12854,
+    "sha256": "57c71a63d1d87eb94b0e2dcd765d7b964c0856262037096f4d25188049c5239f"
+  },
+  {
+    "filename": "v318_wall_counterfactual.zip",
+    "bytes": 21388,
+    "sha256": "47edcda0eb655de7dc549354655e81334f519c49ddce31dc74c0d6fa72d4be71"
+  },
+  {
+    "filename": "v31_5_axis_only_fix.zip",
+    "bytes": 15279,
+    "sha256": "ec2a2490cfd45fc0360f9dd8079c1254314d7bc8becaf1e681abd30ecd9ebee6"
+  },
+  {
+    "filename": "v31_axis_diagnostics.zip",
+    "bytes": 11105,
+    "sha256": "62fd17f54bc9041fb8b10efb00896904e8ff7b0dc8a0a8803b9ddba9267a4bc7"
+  },
+  {
+    "filename": "v31_delayed_fix.zip",
+    "bytes": 14837,
+    "sha256": "a593dfcfc24d71c902e9ae9289715e05707962b86aa9a335c5df1defb9bb0b08"
+  },
+  {
+    "filename": "v31_frames_rescue_package.zip",
+    "bytes": 3466,
+    "sha256": "fd385b1125fcdbbb20e651f33a80efb5d57f500b0db2ed33ce2816f3580038c3"
+  },
+  {
+    "filename": "v31_mount_candidate.zip",
+    "bytes": 12012,
+    "sha256": "44473a817ec2a7605a64c109e8610d279eb8c0d894dd2e75130a8afee5f6261b"
+  },
+  {
+    "filename": "v31_path_hotfix.zip",
+    "bytes": 3557,
+    "sha256": "0ed5c0c564bbded4ec1034d3d8e83e6c8a54af6e08fa173fe8b1f1709ec6f3dc"
+  },
+  {
+    "filename": "v31_shared_axis_probe.zip",
+    "bytes": 6987,
+    "sha256": "b54ac4c3929faadac152f6810ede0c2928e0c045cb945543b951249c75e715ba"
+  },
+  {
+    "filename": "v31_single_hole_source_audit.zip",
+    "bytes": 4916,
+    "sha256": "964892a4bf04403af6ffac7ebda746451e06023595638f9d2ca97c42b4394d31"
+  },
+  {
+    "filename": "v31_single_hole_source_snapshot.zip",
+    "bytes": 760120,
+    "sha256": "a1c2bbfbd5c067145985684aa757f64e08148fa5b3b7c5f9cae63da8a586dab1"
+  },
+  {
+    "filename": "v31_solver_probe.zip",
+    "bytes": 19279,
+    "sha256": "da235a8e1f41019da45082d67839cbb342d1d0f5d4dee86f70104ee0d7bb7533"
+  },
+  {
+    "filename": "v321_six_hole_target_bc.zip",
+    "bytes": 16767,
+    "sha256": "be953653e40168220b3db7d235c0ff9d88c982891a1fe1c2fee3a379718d0c51"
+  },
+  {
+    "filename": "v322_six_hole_bc_coarse.zip",
+    "bytes": 15570,
+    "sha256": "fff7383d001fb54b047832ce3f35b691a4d3ebd271eee9ac12fbced567d323a7"
+  },
+  {
+    "filename": "v323_six_hole_closed_loop.zip",
+    "bytes": 18259,
+    "sha256": "b8de8d2977068bb84836cec64c312f0128b98ab97e428dee918c2399ceece3d2"
+  },
+  {
+    "filename": "v32_six_hole_scene.zip",
+    "bytes": 18926,
+    "sha256": "40f0e5947d31222d844844e22ed102520117f9c703169df9556a1b507cbb2d7e"
+  },
+  {
+    "filename": "v32_view_usd_export.zip",
+    "bytes": 7798,
+    "sha256": "dfffedc604f3073fdc2d55a0ae7533bb6499a28a5d22e7a74090a009d53a3054"
+  }
+]
