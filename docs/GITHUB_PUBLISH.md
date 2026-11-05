@@ -1,42 +1,59 @@
-# GitHub 私有仓库上传说明
+# 私有 GitHub 发布前检查
 
-本目录是 **/home/dgx/eno-fr3-github-stage**，不是原始 `/home/dgx/eno-isaac`。历史源码放在 `archive/legacy_workspace`，单孔核心代码在 `project/`，演示视频预留在 `media/demos`。
+## 1. 先确认这是独立整理目录
 
-## 上传前检查
+推荐仓库目录：`/home/dgx/eno-fr3-github-stage`。不要在原 `eno-isaac` 的几百份实验和大文件上直接执行 `git add .`。
+
+## 2. 校验准备提交的范围
 
 ```bash
 cd /home/dgx/eno-fr3-github-stage
-find . -type f -size +20M -print
-find . -type f \( -name '*.pt' -o -name '*.pth' -o -name '*.zip' \) -print
-find . -type l -print
+find . -type f | wc -l
 du -sh .
+# 定位所有超过 20 MB 的文件（正常的源码归档中不应有）
+find . -type f -size +20M -print
+# 查看符号链接（可能包含意料外的源文件路径）
+find . -type l -print
+# 检查二进制权重、压缩包、录像是否意外进入仓库
+find . -type f \( -name '*.pt' -o -name '*.pth' -o -name '*.zip' -o -name '*.mp4' \) -print
 ```
 
-自动扫描无法覆盖全部凭据、隐私、版权风险。应人工检查密钥、个人路径、第三方模型/资源许可。**不应上传导师/学长资料、内部服务器访问凭据或未经授权的数据。**
+再人工检查源码里是否包含账户、凭据、私有 IP、绝对主机路径、联系人信息及没有发布权限的第三方资产。`REPO_SECRET_ALERTS=[]` 仅代表有限正则没有命中，**不是安全审计通过证明**。保留 SHA256 清单并不能代替提供必要运行资产。
 
-## 创建私有仓库
+## 3. 创建首个 Git 提交
 
 ```bash
 cd /home/dgx/eno-fr3-github-stage
 git init -b main
+git status --short
 git add .
 git diff --cached --stat
-git diff --cached --name-only
-# 检查内容无误后：
-git commit -m "Organize FR3 single-hole project and research archive"
-# 请先确认 GitHub CLI 已登录：
+# 最后再看一次将被提交的文件清单
+git diff --cached --name-only | less
+# 检查无误后才提交
+git commit -m "Archive FR3 peg-in-hole research progress"
+```
+
+如果提示 `Author identity unknown`，只在确认身份后执行 `git config user.name` 与 `git config user.email` 设置，**不要照抄别人的身份**。
+
+## 4. 创建私有 GitHub 仓库并推送
+
+首先检查 `gh` 是否可用：
+
+```bash
+command -v gh
 gh auth status
+```
+
+如已安装但未登录，执行 `gh auth login` 完成浏览器/设备授权；不要在聊天中粘贴 token。之后：
+
+```bash
+cd /home/dgx/eno-fr3-github-stage
 gh repo create eno-fr3-peg-in-hole --private --source=. --remote=origin --push
 ```
 
-若 `git` 身份未设置，按实际 GitHub 身份配置 `user.name` 与 `user.email`。若 `gh` 未安装，可在 GitHub 网页创建空的**私有**仓库后添加 remote 推送。不要在聊天中粘贴 token。
+如果 `gh` 未安装，也可以先在 GitHub 网页创建**空的私有仓库**，再按网页提供的地址执行 `git remote add origin ...` 和 `git push -u origin main`。不要把这里的仓库名当作已经创建成功。
 
-## 视频
+## 5. 老师查看什么？
 
-未来视频放进 `media/demos/`，当前 `.gitignore` 会允许该目录下的 MP4。对大视频优先压缩，单个文件超过 GitHub 普通 Git 限制则使用 Git LFS、Release 或外部存储；上传成功后再在 README 增加实际链接。
-
-## 分享给老师之前
-
-建议的阅读顺序：`README.md` → `docs/PROJECT_MAP.md` → `docs/RESULTS.md` → 相关演示视频。
-
-当前为**单孔闭环原型的工程展示**；六孔未完成、学习策略与物理成功验证仍有局限，不应以代码上传代替任务最终验收。
+发私有仓库访问权限前，建议确认老师是否愿意使用 GitHub，并邀请对应 GitHub 账户为 Collaborator；不要直接公开仓库。展示顺序建议：`README.md` → `docs/PROJECT_MAP.md` → `docs/EXPERIMENTS.md` → `docs/PROGRESS.md`。如果补充演示视频，清楚注明该视频使用何种感知与控制版本以及物理成功判定。
