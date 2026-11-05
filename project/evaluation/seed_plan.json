@@ -1,0 +1,70 @@
+{
+  "plan_version": "v3161_frozen_eval_20261104_v1_using_original_v315_preselected_seeds",
+  "description_cn": "严格沿用v315_frozen_eval30.zip预先固定的30个fresh随机种子；v31.6.1全新标签、全新组，不复跑原开发种子。",
+  "pilot": {
+    "group": "v3161_not_used_pilot_20261104",
+    "seeds": [
+      202611141,
+      202611150
+    ],
+    "purpose": "历史传感器无效种子专项回归；不与盲测混合统计"
+  },
+  "fresh": {
+    "group": "v3161_fresh30_20261104",
+    "seeds": [
+      660420371,
+      797466440,
+      618008055,
+      705445294,
+      725253321,
+      630733495,
+      890612530,
+      889980914,
+      890557526,
+      603670588,
+      723504521,
+      864411069,
+      767362175,
+      713047024,
+      847041967,
+      788360278,
+      734530608,
+      800785690,
+      650013880,
+      860670448,
+      777362248,
+      710888696,
+      786156933,
+      876338758,
+      833360508,
+      605133066,
+      625985567,
+      694214548,
+      616750467,
+      622742430
+    ],
+    "purpose": "30个盲测种子，几何成功与物理接触分别报告"
+  },
+  "frozen_config": {
+    "ENO_V315_LOCK_VARIANT": "axis_only",
+    "ENO_V315_Z_HOLD_STEPS": "25",
+    "ENO_V1717_EPISODE_STEPS": "1400",
+    "ENO_V26_ROT_MAX_DEG": "1.0",
+    "ENO_V26_CAPTURE_EVERY": "5",
+    "ENO_V17_RL_DETERMINISTIC": "1",
+    "ENO_V1717_GUARD_PROFILE": "training",
+    "ENO_V17_6_1_POSITIVE_PROBE": "0",
+    "ENO_IMAGE": "nvcr.io/nvidia/isaac-lab:2.3.1",
+    "ENO_V17_COARSE_MODEL": "/home/dgx/eno-isaac/output/v17_4_bc_models/coarse_bc200_1/bc_actor_best.pt",
+    "ENO_V1717_LEGACY_FORCE_N": "18",
+    "ENO_V1717_RL_XY_SCALE_M": "0.00025",
+    "ENO_V1717_RL_Z_SCALE_M": "0.00008",
+    "ENO_V316_PRELOCK": "1"
+  },
+  "notes_cn": [
+    "先跑pilot，发现故障如需改代码，必须在正式盲测开始前冻结新版本并重新生成盲测计划。",
+    "已知种子不能作为盲测样本。",
+    "当前是zero-ppo residual对照，无已训练策略参与，力接触未经验证。"
+  ],
+  "source_plan_sha256": "f43f4f913f341ef9f9abfb303053ee1ee789450fc7766fbc23a8330d5b24682a"
+}

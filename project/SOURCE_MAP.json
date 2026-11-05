@@ -1,0 +1,107 @@
+[
+  {
+    "project_path": "project/simulation/50_phase05b2b_v16_13_online_evidence.py",
+    "original_path": "scripts/50_phase05b2b_v16_13_online_evidence.py",
+    "sha256": "a295f9abd6ed827fcb3ce16fadd178fd9b6decd0e36dc7678c640182cb6b93fc"
+  },
+  {
+    "project_path": "project/simulation/phase05b2a_geometry.py",
+    "original_path": "scripts/phase05b2a_geometry.py",
+    "sha256": "7f74ebc1112d075c95600fa5b08c1d03d549a8253897ce263dff30f01d8528c1"
+  },
+  {
+    "project_path": "project/simulation/prepare_v17_4_spawn_consistent.py",
+    "original_path": "scripts/prepare_v17_4_spawn_consistent.py",
+    "sha256": "fcd8f6af46826ccdbe8e53d733014a5e9c8bb1d7ab1c72c9aad32a8ab8e4584b"
+  },
+  {
+    "project_path": "project/perception/v26_camera_hook.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/v26_camera_hook.py",
+    "sha256": "976cedbf3f378494daa508cc31f5b2c0e4bfe7487d5510a218b0a37be776bc9d"
+  },
+  {
+    "project_path": "project/perception/v21_rgbd_vision.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/v21_rgbd_vision.py",
+    "sha256": "1ea8bcba26d60915e5bced3228d56614fb336151269a9751d502c783959866e3"
+  },
+  {
+    "project_path": "project/perception/v22_partial_hole.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/v22_partial_hole.py",
+    "sha256": "4f62a9694ebc1ee6a2c8f1b9ee5a0f81882e70913394f71e7365564c7142e870"
+  },
+  {
+    "project_path": "project/perception/v25_hole.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/v25_hole.py",
+    "sha256": "dd2db7fa539004612830d68b8dc345bf6afa7f7629dc717a833bef51b13b76eb"
+  },
+  {
+    "project_path": "project/perception/v25_peg_vision.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/v25_peg_vision.py",
+    "sha256": "c5420bce7baa70b5d59b1df761f933efef19adcbaf06b090ff585b680831e789"
+  },
+  {
+    "project_path": "project/perception/v26_runtime.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/v26_runtime.py",
+    "sha256": "74604abc00a7d3d642277449eb9dae19625d5f44906b3443064032c5c9737d79"
+  },
+  {
+    "project_path": "project/perception/v17_3_hole_sensor.py",
+    "original_path": "scripts/v17_3_hole_sensor.py",
+    "sha256": "47f3a1f1029cfbf824507ef5fdf1ea32de0ce0acae2b89434685a235f0802894"
+  },
+  {
+    "project_path": "project/perception/v17_17_hole_refine.py",
+    "original_path": "scripts/v17_17_hole_refine.py",
+    "sha256": "90e3f99502919a5dc3a6add2160d268ac777b22d564bab305945a804da335c9f"
+  },
+  {
+    "project_path": "project/control/v26_rl_extension.txt",
+    "original_path": "scripts/v31_6_1_prelock_eval/v26_rl_extension.txt",
+    "sha256": "f0d18bcdc2faa21f6a35bc94e7489084ad4fbddb3d1b44697fefbce4ce0ff87e"
+  },
+  {
+    "project_path": "project/control/prepare_v26.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/prepare_v26.py",
+    "sha256": "16bd359f40b55deb07d9a07c8dee0830ecdca54f78b74d022b06848653cae239"
+  },
+  {
+    "project_path": "project/control/run_v26_rollout.sh",
+    "original_path": "scripts/v31_6_1_prelock_eval/run_v26_rollout.sh",
+    "sha256": "a6fe53a6fb4787ebd3bc7a48a516b5a9fcfa827031b8d6ae33b092f2659b03f8"
+  },
+  {
+    "project_path": "project/control/prepare_v17_9_rl.py",
+    "original_path": "scripts/prepare_v17_9_rl.py",
+    "sha256": "87d69e1661a1bc4185b413faae2bf75f2cc19af8a6098e6aceb9109f3afc7e50"
+  },
+  {
+    "project_path": "project/learning/train_v17_3_coarse_bc.py",
+    "original_path": "scripts/train_v17_3_coarse_bc.py",
+    "sha256": "d568e759512287f297e65ec5d374bc937a93275f6323adbd41353ba1f6f6779b"
+  },
+  {
+    "project_path": "project/learning/v26_ppo.py",
+    "original_path": "scripts/v31_6_1_prelock_eval/v26_ppo.py",
+    "sha256": "33e3274d7ba0e1d44b4617730040fd9b1482d3d5a5ffa670bc3053949c2843ee"
+  },
+  {
+    "project_path": "project/evaluation/eval_v3161.py",
+    "original_path": "v3161_frozen_eval30/eval_v3161.py",
+    "sha256": "a87d6e8d0ac5cef71194f00d4bdb70413eed99f803c40068eca7601449f70501"
+  },
+  {
+    "project_path": "project/evaluation/run.sh",
+    "original_path": "v3161_frozen_eval30/run.sh",
+    "sha256": "4e47bb634e4898d6a79dd00ed58786fac046a5adfaf495b8c0f543e420e273ec"
+  },
+  {
+    "project_path": "project/evaluation/seed_plan.json",
+    "original_path": "v3161_frozen_eval30/seed_plan.json",
+    "sha256": "413d33d62a9577a13e9081a6bd3f558e658af61f44f6d9e76376126232339583"
+  },
+  {
+    "project_path": "project/evaluation/README_中文.md",
+    "original_path": "v3161_frozen_eval30/README_中文.md",
+    "sha256": "860459553da13e43f9b7be6dfe8e41a37ef3018f9c4d2721c363e0dc73912998"
+  }
+]

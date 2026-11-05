@@ -1,0 +1,409 @@
+from v26_runtime import v26_latest_visual, v26_install_nominal_control_start
+# =============================================================================
+# v17.17 非特权棒表面射线 + 对中门控 + 残差 PPO 轨迹采集入口。
+# 每次独立 PhysX/Kit 进程只跑一条轨迹；不把同一场景重复reset伪称随机。
+# 仅Actor观察 obs37；孔真值和棒安装误差仅进入隔离的 reward/离线验收。
+# =============================================================================
+
+from v26_runtime import V26VisualUnavailable
+from v17_17_hole_refine import refine_hole_ray_center, HoleRefineInvalid
+
+def v177_observation(u, sensor, prev_action, last_residual, contact_feedback, step, stage_code):
+    """v26 新的37维 PPO 状态。绝不读取物理真实安装偏差。
+
+    BC阶段保持旧20维定义（孔射线+名义工具FK），避免旧BC checkpoint 失配。
+    RL阶段改写第14:17维为真实RGB-D估计的孔-棒XYZ（单位m/0.05）。
+    第33/34维分别为棒轴世界系X/Y方向分量（除0.1）。
+    其余维度延续原37维，详见README。若视觉不可用立即拒绝本回合，
+    禁止回退到PhysX真值或名义棒位姿作为RL的替代观测。
+    """
+    q=u.robot.data.joint_pos[0,u.arm_ids].detach().cpu().numpy().astype(float)
+    dq=u.robot.data.joint_vel[0,u.arm_ids].detach().cpu().numpy().astype(float)
+    # 真正机器人可用的“名义工具”是已知机械装配假设，不是随机安装偏差真值。
+    local=np.asarray(u._v23_nominal_tip_local,dtype=float)
+    nom_axis=np.asarray(u._v23_nominal_axis_local,dtype=float)
+    nominal=fk_task5(u._v16_chain,q,u._v16_root_T,local,nom_axis)
+    R=quat_wxyz_to_rot(u.robot.data.body_link_quat_w[0,u.link8_ids[0]].detach().cpu().numpy())
+    bc_obs=sensor.student_observation(q,dq,nominal[:3],R,prev_action)
+    err=np.asarray(sensor._hole_meas[:2]-nominal[:2],dtype=float)
+    depth_mm=float((sensor._hole_meas[2]-nominal[2])*1000.)
+    axis_horizontal=np.zeros(2,dtype=float)
+    if stage_code>=0.5:
+        rel5,quality=v26_latest_visual(u,strict=True)
+        err=np.asarray(rel5[:2],dtype=float)
+        depth_mm=float(rel5[2]*1000.)
+        axis_horizontal=np.asarray(rel5[3:5],dtype=float)
+        bc_obs[14:17]=np.clip(rel5[:3]/.05,-3.,3.)
+    radial_mm=float(np.linalg.norm(err)*1000.)
+    f=np.clip(np.asarray(contact_feedback['contact_force_w_N'],dtype=float)/20.,-3.,3.)
+    e=np.clip(np.asarray(contact_feedback['joint_tracking_error_rad'],dtype=float)/.03,-3.,3.)
+    vec=np.concatenate([bc_obs.astype(float),f,e,np.asarray(last_residual,dtype=float),
+        [axis_horizontal[0]/.1,axis_horizontal[1]/.1,float(stage_code),float(step)/350.]]).astype(np.float32)
+    if vec.shape!=(37,) or not np.isfinite(vec).all():
+        raise V26VisualUnavailable('PPO状态缺失或非有限，禁止虚假填充')
+    return vec,nominal,err,radial_mm,depth_mm
+
+def v17_9_residual_rollout_main():
+    """单条真实物理 rollout；PPO 梯度更新由外部进程批次执行。"""
+    import v26_ppo as rl
+    if args.disable_hole_collision:raise RuntimeError('真实训练不能关闭碰撞体')
+    if args.v17_rl_ckpt is None or args.v17_coarse_ckpt is None:
+        raise RuntimeError('缺少PPO或粗定位 BC checkpoint')
+    # v17.13：不把旧版18N力上限、0.025rad跟踪误差当作必然应终止的任务失败。
+    # 两个profile用于消融：training为默认，legacy供对照，均不可用于真实硬件。
+    total=int(args.v17_coarse_steps)
+    profile=os.environ.get('ENO_V1717_GUARD_PROFILE','training')
+    if profile not in ('training','legacy'):
+        raise ValueError('ENO_V1717_GUARD_PROFILE只能是training/legacy')
+    force_lim=float(args.v17_force_limit_n)
+    xy_scale=float(os.environ.get('ENO_V1717_RL_XY_SCALE_M','0.00025'))
+    z_scale=float(os.environ.get('ENO_V1717_RL_Z_SCALE_M','0.00008'))
+    if not 300<=total<=2500: raise RuntimeError('episode步数范围300-2500')
+    if not 0.00004<=xy_scale<=0.0004 or not 0.00002<=z_scale<=0.00015:
+        raise RuntimeError('残差步长不在可控的实验范围，单位m/control-step')
+    if profile=='legacy':
+        if not 8<=force_lim<=30:raise RuntimeError('legacy力上限必须8-30N')
+    else:
+        # 100 N 是示例中的接触终止界限，触发后将作为失败经验纳入PPO。
+        # 并不是物理无效性的证明。大于1000N的异常尖峰作为疑似数值异常隔离。
+        # 两个阈值均为仿真工程参数，不是用户任务成功条件，也不是FR3硬件安全规范。
+        force_lim=30.  # 仿真早停阈值；接触尖峰无法由20Hz后验力保证避免
+    tracking_bad_steps=0
+    safety_soft_events=0
+    peg_aligned_steps=0
+    visual_rl_observations=0
+    peg_gate_blocked_steps=0
+    nominal_probe_events=0  # 名义偏差>1.5mm时，低速向下试探次数
+    free_advance_events=0    # 小名义偏差时的正常推进次数
+    xy_masked_steps=0
+    out=args.output_dir
+    if out.exists():raise RuntimeError('拒绝覆盖旧实验文件:'+str(out))
+    out.mkdir(parents=True,exist_ok=False)
+    env=None
+    report={'status':'ERROR','schema':'v26_2_zero_residual_eval_only_v1','seed':int(args.seed),
+        'policy_ablation':'ZERO_PPO_RESIDUAL',
+        'ppo_action_applied':False,
+        'training_compatible':False,
+        'mode':'V26_RGBD_RELPOSE5_PPO',
+        'privileged_truth_actor_input':False,
+        'per_process_randomization':True,'force_partner_filtered_to_hole':False,
+        'control_revision':'v26_rgbd_joint_mount_and_nominal_fk_v1'}
+    data=[];online=[];offline=[]
+    try:
+        torch.manual_seed(int(args.seed))
+        # 加载已训练COARSE BC和当前冻结PPO网络；拒绝旧版schema错配。
+        from train_v17_3_coarse_bc import BCActor
+        coarse_ck=torch.load(args.v17_coarse_ckpt,map_location='cpu',weights_only=True)
+        if (coarse_ck.get('feature_schema')!=FEATURE_SCHEMA or coarse_ck.get('input_dim')!=20):
+            raise RuntimeError('粗定位BC权重观测定义不匹配')
+        coarse=BCActor().cpu().eval();coarse.load_state_dict(coarse_ck['model_state_dict'])
+        mean=coarse_ck['observation_mean'].cpu().numpy().astype(np.float32).reshape(20)
+        std=coarse_ck['observation_std'].cpu().numpy().astype(np.float32).reshape(20)
+        if np.any(std<=0):raise RuntimeError('BC归一化std无效')
+        actor,info=rl.load_ckpt(args.v17_rl_ckpt)
+        actor.eval()
+        report['policy_updates']=int(info['updates'])
+        report['policy_episodes_seen']=int(info['episodes'])
+        cfg=FR3LocalTrainCfg();cfg.seed=args.seed;cfg.scene.num_envs=1
+        cfg.sim.device=args.device or 'cuda:0';cfg.sim.enable_scene_query_support=True
+        cfg.sim.gravity=(0.,0.,-9.81)
+        cfg.episode_length_s=max(90.,(total+20)*CTRL_DT)
+        cfg.robot_cfg.spawn.activate_contact_sensors=True
+        gym.register(id='Eno-FR3-V177B-Residual',entry_point=f'{__name__}:V176ContactEnv',
+                     disable_env_checker=True)
+        env=gym.make('Eno-FR3-V177B-Residual',cfg=cfg);u=env.unwrapped
+        env.reset(seed=args.seed)
+        for _ in range(3):env.step(torch.zeros((1,3),device=u.device))
+        u.prepare_v16()
+        v26_install_nominal_control_start(u)  # 隔离底层控制器与仿真真实工具参数
+        global V16_MAX_TARGET_SHIFT_XY_M
+        V16_MAX_TARGET_SHIFT_XY_M=.120
+        env.reset(seed=args.seed)
+        local=np.asarray(u._v23_nominal_tip_local,dtype=float)
+        q0=u.robot.data.joint_pos[0,u.arm_ids].detach().cpu().numpy().astype(float)
+        nominal0=fk_task5(u._v16_chain,q0,u._v16_root_T,local,u._v23_nominal_axis_local)
+        rot0=quat_wxyz_to_rot(u.robot.data.body_link_quat_w[0,u.link8_ids[0]].detach().cpu().numpy())
+        sensor=V17RayDepthEstimator(V16_HOLE_XY_M,geom.HOLE_BASE_WORLD[2],rng_seed=args.seed)
+        sensor.calibrate_once(nominal0[:3],local,rot0,q0)
+        # 本工作中孔径23mm是已知几何参数；使用射线表面环带细化孔中心，
+        # 不允许读取孔座 USD/world_pose，也不以真实孔中心作为拟合初值。
+        hole_refine_info=refine_hole_ray_center(sensor)
+        print('[V17_17_HOLE_RAY_REFINED] '+json.dumps(hole_refine_info,ensure_ascii=False),flush=True)
+        offline_sensor_error=float(np.linalg.norm(sensor._hole_meas[:2]-u._v16_hole[:2])*1000.)
+        report['offline_hole_sensor_error_mm']=offline_sensor_error
+        report['hole_refine']=hole_refine_info
+        # 只在RL阶段启用：固定高度的横向射线，识别20mm棒表面边界。
+        # 并非oracle+噪声。若扫不到合法圆柱，拒绝轨迹而不是使用真值兜底。
+        # v26 视觉传感直接从三路RGB-D生成；禁用失败的横向peg ray
+
+        # 旧版将离线真值误差>5mm直接拒收，会改变原始随机任务分布。
+        # 训练版不按离线真值筛选样本，否则会无意只训练容易样本；仅记录误差。
+        if not np.isfinite(offline_sensor_error):
+            raise RuntimeError('孔传感器离线诊断数值无效')
+        prev=np.zeros(3,dtype=np.float32)
+        residual_prev=np.zeros(3,dtype=np.float32)
+        fprev=v176_read_feedback(u)
+        # 起始数值异常仍应记录；不过小接触力不是删掉整个随机场景的理由。
+        if not np.isfinite(fprev['contact_force_norm_N']):
+            raise RuntimeError('起始接触力NaN/Inf')
+        stage='COARSE';steady=0;hold=0;reward_sum=0.;peak=0.
+        prev_true=None;truncated=False;cause='max_steps';terminal=False
+        # 每个 episode 都创建一个新的、真实随机的孔USD和棒Collider。
+        for i in range(1,total+1):
+            obs,nominal,err,radial,depth=v177_observation(
+                u,sensor,prev,residual_prev,fprev,i,1.0 if stage=='RL' else 0.0)
+            raw_residual=np.zeros(3,dtype=float)
+            rl_mode='not_rl'  # 后续日志定位状态转移/回撤/试探，而不是凭最终力猜测碰撞
+            logp=None;value=None;is_rl=(stage=='RL')
+            if is_rl:visual_rl_observations+=1
+            if stage=='COARSE':
+                if radial<=10.:stage='CENTER'
+                if stage=='COARSE':
+                    if i<260:
+                        with torch.no_grad():
+                            raw=coarse(torch.from_numpy(((obs[:20]-mean)/std).reshape(1,20)))
+                            act=raw.squeeze(0).numpy().astype(float)
+                        act=np.clip(act,-1.,1.);act[2]=0.
+                    else:
+                        # BC迟迟不接近则用同一射线测量伺服兜底；必须如实计入最终混合系统。
+                        xy=np.clip(.32*err,-.00035,.00035)
+                        act=np.array([xy[0]/V16_ACTION_SCALE_M[0],xy[1]/V16_ACTION_SCALE_M[1],0.])
+                else: act=np.zeros(3)
+            elif stage=='CENTER':
+                # 仅在孔口上方 ~12mm 进行名义纠偏，严禁靠近孔口时大幅横移。
+                xy=np.clip(.30*err,-.00022,.00022)
+                act=np.array([xy[0]/V16_ACTION_SCALE_M[0],xy[1]/V16_ACTION_SCALE_M[1],0.])
+                steady=steady+1 if radial<=.65 else 0
+                if steady>=5:
+                    stage='PREAPPROACH'  # 仅用名义几何和可观测力反馈进行预接近；不读取真实mount
+            elif stage=='PREAPPROACH':
+                # v17.8 课程关键点：在无接触的安全高度把名义棒尖移到孔口上方3mm。
+                # 原v17.7-B在孔口上方约12mm就开始采样RL，前100多个RL步缺乏接触/纠偏信息。
+                # 本段完全依据测得的孔中心 + 名义FK，不使用真实棒位置或安装偏差。
+                force=float(fprev['contact_force_norm_N'])
+                xy=np.clip(.22*err,-.00006,.00006)
+                z=-.00010 if depth < -3.0 and radial<=1.2 and force<1.5 else 0.
+                act=np.array([xy[0]/V16_ACTION_SCALE_M[0],xy[1]/V16_ACTION_SCALE_M[1],
+                              z/V16_ACTION_SCALE_M[2]],dtype=float)
+                if depth>=-3.0 and radial<=1.2 and force<1.5:
+                    stage='RL'
+                    # 特权状态仅用于随后的奖励差分，严格不进入网络输入。
+                    prev_true=u._v16_true_state()
+            else:
+                # RL：在小残差、可观测反馈和固定安全控制器上探索。
+                # 策略输出3维动作，真正向PhysX发送的依然是3D增量IK动作。
+                # 安全层若限制接触时的横向动作，需要在PPO logp上同步屏蔽XY维度。
+                # 这个mask只能来自在线可测力和名义深度，禁止使用仿真真实对准误差。
+                # ----------------- 精细对中优先的受限动作控制 -----------------
+                force=float(fprev['contact_force_norm_N'])
+                max_tracking=float(fprev['max_joint_tracking_error_rad'])
+                # 测量误差来自RGB-D及本体FK的联合估计；不得读取真实安装参数。
+                # 当棒真实姿态稍有倾斜，XY截面测量近似棒轴投影。
+                # 机器人关节姿态也可测量（非oracle），用于阻止斜插。
+                rel5,quality=v26_latest_visual(u,strict=True)
+                axis=np.array([rel5[3],rel5[4],-np.sqrt(max(0.,1.-rel5[3]**2-rel5[4]**2))])
+                tilt_est_deg=float(np.degrees(np.arcsin(np.clip(np.linalg.norm(axis[:2]),0.,1.))))
+                # 连续稳定对中，防止噪声使Z门反复开闭。孔与棒径向间隙1.5mm；
+                # 这里用0.60mm留出安装测量误差、倾角和控制滞后的裕量。
+                observable_ok=(radial<=.60 and tilt_est_deg<=.65 and
+                               max_tracking<.012 and force<3.)
+                peg_aligned_steps=peg_aligned_steps+1 if observable_ok else 0
+                can_descend=(peg_aligned_steps>=5 and depth<15.)
+                action_mask=[1.,1.,1.] if can_descend else [1.,1.,0.]
+                raw_residual,logp,value=actor.act(
+                    obs,deterministic=os.environ.get('ENO_V17_RL_DETERMINISTIC')=='1',
+                    action_mask=action_mask)
+                # v26.2 纯确定性控制消融：保留原视觉、伺服、门控与Z速度，
+                # 但PPO的XYZ残差全部设为零，网络不再对控制器施加影响。
+                # 注意：上面actor.act仍用于维持原加载/接口流程；其logp与
+                # 此处人为置零后的动作不匹配！因此本轨迹已更改schema，
+                # 绝不能作为on-policy PPO训练样本（更新器将拒绝）。
+                raw_residual=np.zeros(3,dtype=float)
+                # XY仍有控制权：测量误差的小P伺服为稳定底座，PPO残差可学习修正。
+                # 注意：这是一个残差PPO，必须与“纯规则XY搜索”单独做消融。
+                xy=np.clip(.12*err,-.00012,.00012)+raw_residual[:2]*min(xy_scale,.00015)
+                xy=np.clip(xy,-.00024,.00024)
+                if force>=12.:
+                    safety_soft_events+=1
+                    rl_mode='contact_retract'
+                    xy=np.clip(xy,-.000035,.000035)
+                    z=.00006  # 向上退让；不是无界退出
+                elif force>=3. or max_tracking>=.012:
+                    rl_mode='contact_hold_realign'
+                    xy=np.clip(xy,-.000035,.000035)
+                    z=0.0
+                elif not can_descend:
+                    peg_gate_blocked_steps+=1
+                    rl_mode='peg_xy_align_only'
+                    z=0.0
+                else:
+                    free_advance_events+=1
+                    rl_mode='aligned_slow_insert'
+                    # PPO只在对中门开启时拥有Z的动作概率质量；
+                    # 禁止模型在未对中状态下随机向下推进。
+                    z=-.000027 + raw_residual[2]*.000010
+                # 对应前述掩码：z被硬覆盖时不将Z残差计入PPO logp。
+                if depth>=15. and z<0:z=0.
+                act=np.asarray([xy[0]/V16_ACTION_SCALE_M[0],xy[1]/V16_ACTION_SCALE_M[1],
+                                 z/V16_ACTION_SCALE_M[2]],dtype=float)
+                # 已限制实际末端单步增量，禁止命令无限横移或深度推进。
+                act[:2]=np.clip(act[:2],-.70,.70)
+                act[2]=np.clip(act[2],-.15,.15)
+            act=np.clip(np.asarray(act,dtype=float),-1.,1.)
+            if not np.isfinite(act).all():raise RuntimeError('策略动作非有限')
+            _,_,term,trunc,_=env.step(torch.as_tensor(act.reshape(1,3),dtype=torch.float32,device=u.device))
+            prev=act.astype(np.float32)
+            # 当Z维度没有控制权限时，其随机采样结果不应混入下一状态的历史动作。
+            residual_prev=raw_residual.astype(np.float32).copy()
+            if is_rl and action_mask[2]==0.:
+                residual_prev[2]=0.
+            fb=v176_read_feedback(u);fprev=fb
+            force=float(fb['contact_force_norm_N'])
+            peak=max(peak,force)
+            env_end=bool((term|trunc).item())
+            # 注意：奖励可读取 simulator true state，但网络 obs/动作没有读取它！
+            # 如果env自身已经终止，Isaac可能已reset，真值不能拿来伪造成功。
+            truth=None if env_end else u._v16_true_state()
+            if truth is not None:
+                t={'step':i,'true_radial_mm':float(truth['radial']*1000.),
+                   'true_depth_mm':float(truth['depth']*1000.),
+                   'true_tilt_deg':float(truth['tilt_deg'])}
+                offline.append(t)
+            else:t=None
+            # 包括非RL段也要记录，以便发现粗定位超时和物理力保护。
+            nominal_r_mm=float(np.linalg.norm(sensor._hole_meas[:2]-nominal[:2])*1000.)
+            online.append({'step':i,'stage':stage,'nominal_radial_mm':nominal_r_mm,
+                'measured_peg_hole_radial_mm':radial,
+                'nominal_depth_mm':depth,'force_N':force,'executed_xyz':act.tolist(),
+                'rl_mode':rl_mode})
+            # 旧版0.025rad(约1.43°)即硬终止，可能把接触恢复中的暂态误差当成失败。
+            # 训练版需要关节误差>0.15rad持续10控制步才终止；
+            # 100N接触失败计入PPO；>1000N的极端峰值隔离，不能替代子步级防护。
+            max_tracking=float(fb['max_joint_tracking_error_rad'])
+            if not np.isfinite(force) or not np.isfinite(max_tracking):
+                cause='nonfinite_physics';terminal=True
+            elif force>=force_lim:
+                cause='contact_force_guard' if profile=='legacy' else ('extreme_force_quarantine' if force>=1000. else 'contact_overload_terminal')
+                terminal=True
+            elif profile=='legacy' and max_tracking>.025:
+                cause='joint_tracking_guard';terminal=True
+            elif profile=='training' and max_tracking>.15:
+                tracking_bad_steps+=1
+                if tracking_bad_steps>=10:
+                    cause='sustained_joint_tracking_guard';terminal=True
+            else:
+                tracking_bad_steps=0
+            if env_end and not terminal:
+                cause='env_termination';terminal=True
+            # 任务成功: 真实径向<=1.5mm、深度>=15mm、倾角<=2°持续>=0.2s。
+            # 成功是一个布尔条件，不再额外设置多级认证。
+            if (not terminal and t is not None and t['true_depth_mm']>=15.0
+                and t['true_radial_mm']<=1.5 and t['true_tilt_deg']<=2.0):
+                hold+=1
+            else:hold=0
+            # 控制频率20Hz，0.2秒约4个控制周期。只保留一个success判定。
+            if hold>=max(1,int(np.ceil(.20/CTRL_DT))):
+                cause='success';terminal=True
+            if i>=total:terminal=True
+            if is_rl:
+                # reward 特权真值只在训练环境；该reward绝不接入策略obs。
+                # 密集特权奖励 (asymmetric reward)：仅用于PPO优化，不输入Actor。
+                # 在近孔口随机化时，真实径向误差改善可形成方向性的反馈。
+                # r[mm]变化放大到0.35/mm，避免原版0.03/mm几乎被时间项淹没。
+                # 每步时间代价：静止不再因“已对中”得到正的驻留奖励。
+                reward=-.008
+                if t is not None:
+                    reward-=.003*min(t['true_radial_mm'],12.)
+                    if prev_true is not None:
+                        dr_mm=1000.*float(prev_true['radial']-truth['radial'])
+                        dz_mm=1000.*float(truth['depth']-prev_true['depth'])
+                        # 真值仅用于训练环境reward，不用于Actor观测和执行器门控。
+                        reward+=.18*np.clip(dr_mm,-.35,.35)
+                        # 只有对中后，深入的进展才获得奖励；回退则为负奖励。
+                        if t['true_radial_mm']<=1.1 and t['true_tilt_deg']<=1.0:
+                            reward+=.25*np.clip(dz_mm,-.10,.10)
+                    # “对中状态”不再按每步奖励；只有改善量有收益。
+                reward-=.008*min(force,30.)
+                if cause in ('contact_force_guard','contact_overload_terminal'):
+                    reward-=12.
+                if cause in ('joint_tracking_guard','sustained_joint_tracking_guard'):
+                    reward-=8.
+                if cause in ('extreme_force_quarantine','nonfinite_physics'):
+                    reward-=20.
+                if cause=='env_termination':reward-=8.
+                if cause=='success':reward+=60.
+                reward_sum+=reward
+                data.append({'obs':obs.tolist(),'action':raw_residual.tolist(),
+                    'logp':float(logp),'value':float(value),'reward':float(reward),
+                    'action_mask':action_mask,
+                    'done':bool(terminal)})
+                prev_true=truth
+            if i==1 or i%50==0 or (terminal and is_rl):
+                print('[V17_17_RL_STEP] '+json.dumps({'step':i,'stage':stage,
+                    'force_N':round(force,2),'measured_peg_hole_radial_mm':round(radial,2),
+                    'nominal_depth_mm':round(depth,2),'rl_steps':len(data),
+                    'stop_reason':cause if terminal else None},ensure_ascii=False),flush=True)
+            if terminal:break
+        # PPO的GAE：到达时间上限属于truncation，应使用V(s_T) bootstrap，
+        # 而不是误把它当作真实失败(done=True,value=0)；真正碰撞保护等仍做terminal。
+        bootstrap_value=0.
+        if data and cause=='max_steps':
+            data[-1]['done']=False
+            tail_obs,_,_,_,_=v177_observation(u,sensor,prev,residual_prev,fprev,i+1,1.0)
+            with torch.no_grad():
+                _,_,v_tail=actor.forward(torch.as_tensor(tail_obs,dtype=torch.float32).reshape(1,37))
+            bootstrap_value=float(v_tail.item())
+        report.update({'status':'COMPLETE','steps_total':i,'rl_steps':len(data),'stop_reason':cause,
+            'deterministic_eval':os.environ.get('ENO_V17_RL_DETERMINISTIC')=='1',
+            'max_contact_force_N':peak,'episode_reward':float(reward_sum),
+            'success':cause=='success',
+            'nominal_coarse_bc_with_servo_fallback':True,
+            'offline_sensor_error_filter_used':False,
+            'guard_profile':profile,
+            'tracking_guard_consecutive_steps':10 if profile=='training' else 1,
+            'tracking_guard_rad':.15 if profile=='training' else .025,
+            'soft_contact_response_events':int(safety_soft_events),
+            'visual_rl_observations':int(visual_rl_observations),
+            'mount_lock_step':getattr(getattr(u,'_v23_visual_state',None).mount,'locked_at_step',None),
+            'mount_lock_visual_only':True,
+            'visual_used_for_policy':True,
+            'student_ik_source':'vision_estimated_mount_from_rgbd',
+            'vision_ik_steps':int(getattr(u,'_v26_vision_ik_steps',0)),
+            'nominal_ik_steps':int(getattr(u,'_v26_nominal_ik_steps',0)),
+            'peg_gate_blocked_steps':int(peg_gate_blocked_steps),
+            'contact_feedback_substep_verified':False,
+            'nominal_probe_events':int(nominal_probe_events),
+            'free_advance_events':int(free_advance_events),
+            'xy_masked_steps':int(xy_masked_steps),
+            'rl_action_scale_m_per_step':[xy_scale,xy_scale,z_scale],
+            'online_actor_obs_dim':37,'curriculum_nominal_start_depth_mm':-3.0,
+            'max_online_true_radial_access':False,
+            'max_true_depth_mm_offline':max((x['true_depth_mm'] for x in offline),default=None),
+            'min_true_radial_mm_offline':min((x['true_radial_mm'] for x in offline),default=None)})
+        if len(data)<2 and os.environ.get('ENO_V17_RL_DETERMINISTIC')!='1':
+            report['status']='ROLLOUT_NOT_TRAINABLE'
+        if cause=='nonfinite_physics' or peak>=40 or cause=='extreme_force_quarantine':
+            # 对极端峰值保留离线记录；该轨迹不参与策略梯度。
+            report['status']='CRITICAL_FORCE_SPIKE'
+        print('[V17_17_RL_RESULT] '+json.dumps(report,ensure_ascii=False),flush=True)
+    except (V26VisualUnavailable,HoleRefineInvalid) as exc:
+        report['status']='SENSOR_INVALID'
+        report['error']=str(exc)
+        print('[V17_17_SENSOR_INVALID] '+str(exc),flush=True)
+    except Exception as exc:
+        report['status']='ERROR';report['error']=f'{type(exc).__name__}: {exc}'
+        report['traceback']=traceback.format_exc()
+        print('[V17_17_RL_ERROR] '+report['error'],flush=True)
+    finally:
+        (out/'v17_7_residual_rollout.json').write_text(json.dumps({**report,
+            'steps':data,'bootstrap_value':bootstrap_value if 'bootstrap_value' in locals() else 0.},ensure_ascii=False,indent=2,allow_nan=False),encoding='utf8')
+        with (out/'v17_7_online_observations.jsonl').open('w',encoding='utf8') as f:
+            for x in online:f.write(json.dumps(x,ensure_ascii=False,allow_nan=False)+'\n')
+        with (out/'v17_7_OFFLINE_TRUTH_DO_NOT_TRAIN.jsonl').open('w',encoding='utf8') as f:
+            for x in offline:f.write(json.dumps(x,ensure_ascii=False,allow_nan=False)+'\n')
+        if env is not None:
+            try:env.close()
+            except Exception:pass
+        try:simulation_app.close()
+        except Exception:pass
+    return 0 if report.get('status')=='COMPLETE' else 1
